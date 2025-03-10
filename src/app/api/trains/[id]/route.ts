@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 
-export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(req: NextRequest) {
   try {
-    const { id } = params;
+    const id = req.nextUrl.pathname.split("/").pop();
 
     if (!id) {
       return NextResponse.json({ error: "Missing train ID" }, { status: 400 });
@@ -35,9 +35,9 @@ export async function DELETE(req: NextRequest, { params }: { params: { id: strin
   }
 }
 
-export async function PATCH(req: NextRequest, { params }: { params: { id: string } }) {
+export async function PATCH(req: NextRequest) {
   try {
-    const { id } = params;
+    const id = req.nextUrl.pathname.split("/").pop();
 
     if (!id) {
       return NextResponse.json({ error: "Missing train ID" }, { status: 400 });
