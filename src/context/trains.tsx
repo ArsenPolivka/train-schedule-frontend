@@ -1,6 +1,8 @@
 'use client';
 
 import { createContext, useContext, useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+
 import type { TTrain } from "@/utils/types";
 
 interface TrainsContextType {
@@ -17,6 +19,8 @@ export const TrainsProvider = ({ children }: { children: React.ReactNode }) => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
+  const router = useRouter()
+
   const fetchTrains = async (search = '', sortBy = 'departure', order = 'ASC') => {
     setLoading(true);
     setError('');
@@ -25,8 +29,7 @@ export const TrainsProvider = ({ children }: { children: React.ReactNode }) => {
       const res = await fetch(`/api/trains?search=${encodeURIComponent(search)}&sortBy=${sortBy}&order=${order}`);
 
       if (res.status === 401) {
-        document.cookie = "token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
-        return;
+        router.push('/login')
       }
 
       if (!res.ok) {
